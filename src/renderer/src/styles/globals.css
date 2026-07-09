@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* -------------------------------------------------------------------------
+   Print / PDF export directives
+   Electron's printToPDF() uses @media print rules to control page layout.
+   ------------------------------------------------------------------------- */
+
+@media print {
+  /* Prevent arbitrary elements from being cut across page boundaries. */
+  .print\:break-inside-avoid {
+    break-inside: avoid;
+  }
+
+  /* Hide UI chrome that should not appear in the exported document. */
+  .print\:hidden {
+    display: none !important;
+  }
+}
