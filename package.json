@@ -5,8 +5,8 @@
   "main": "out/main/index.js",
   "scripts": {
     "dev": "concurrently -k -n renderer,electron -c cyan,yellow \"npm run dev:renderer\" \"npm run dev:electron\"",
-    "dev:renderer": "next dev src/renderer -p 3000",
-    "dev:electron": "wait-on tcp:3000 && electron-vite dev",
+    "dev:renderer": "next dev src/renderer -p 3100",
+    "dev:electron": "wait-on tcp:3100 && electron-vite dev",
     "build": "npm run build:renderer && electron-vite build",
     "build:renderer": "next build src/renderer",
     "preview": "electron-vite preview",
@@ -33,5 +33,10 @@
     "tailwindcss": "^3.4.17",
     "typescript": "^5.8.3",
     "wait-on": "^8.0.3"
+  },
+  "build": {
+    "win": {
+      "icon": "build/icon.ico"
+    }
   }
 }

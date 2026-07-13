@@ -2,12 +2,120 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --paper-width: 210mm;
+  --paper-height: 297mm;
+}
+
+body {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 12% 4%, rgba(226, 175, 141, 0.36), transparent 30%),
+    radial-gradient(circle at 88% 6%, rgba(202, 187, 169, 0.34), transparent 30%),
+    linear-gradient(180deg, #f8f2e7 0%, #f0e6d6 100%);
+}
+
+.editorial-shell {
+  position: relative;
+  overflow: hidden;
+}
+
+.editorial-shell::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(63, 52, 44, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(63, 52, 44, 0.02) 1px, transparent 1px);
+  background-size: 26px 26px;
+  pointer-events: none;
+}
+
+.paper-sheet {
+  width: min(var(--paper-width), 100%);
+  min-height: var(--paper-height);
+  margin: 0 auto;
+}
+
+.report-paper {
+  font-family: var(--font-body), sans-serif;
+  color: #2a211c;
+  line-height: 1.75;
+}
+
+.report-paper h1,
+.report-paper h2,
+.report-paper h3 {
+  font-family: var(--font-display), serif;
+  color: #1a1512;
+  letter-spacing: 0.015em;
+}
+
+.report-paper .katex-display {
+  margin: 1.35rem 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  break-inside: avoid;
+}
+
+.report-paper .katex {
+  font-size: 1.02em;
+}
+
+.fade-in-up {
+  animation: fade-in-up 420ms ease-out both;
+}
+
+.fade-in-soft {
+  animation: fade-in-soft 550ms ease-out both;
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in-soft {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
 /* -------------------------------------------------------------------------
    Print / PDF export directives
    Electron's printToPDF() uses @media print rules to control page layout.
    ------------------------------------------------------------------------- */
 
 @media print {
+  body {
+    background: #fff !important;
+  }
+
+  .editorial-shell::before {
+    display: none;
+  }
+
+  .paper-sheet {
+    width: 100% !important;
+    min-height: auto !important;
+  }
+
+  .report-paper {
+    box-shadow: none !important;
+    border: none !important;
+  }
+
   /* Prevent arbitrary elements from being cut across page boundaries. */
   .print\:break-inside-avoid {
     break-inside: avoid;

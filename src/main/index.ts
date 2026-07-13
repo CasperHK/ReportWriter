@@ -18,17 +18,29 @@ interface SaveDocxPayload {
   savePath?: string;
 }
 
+function resolveWindowIconPath(): string | undefined {
+  const candidates = [
+    path.join(app.getAppPath(), 'build', 'icon.png'),
+    path.join(process.cwd(), 'build', 'icon.png'),
+  ];
+
+  return candidates.find((iconPath) => fs.existsSync(iconPath));
+}
+
 // ---------------------------------------------------------------------------
 // Window factory
 // ---------------------------------------------------------------------------
 
 function createWindow(): BrowserWindow {
+  const icon = resolveWindowIconPath();
+
   const mainWindow = new BrowserWindow({
     width: 1280,
     height: 800,
     minWidth: 800,
     minHeight: 600,
     show: false,
+    ...(icon ? { icon } : {}),
     webPreferences: {
       // Security: always keep context isolation on and node integration off.
       contextIsolation: true,
@@ -44,7 +56,7 @@ function createWindow(): BrowserWindow {
 
   if (process.env['NODE_ENV'] === 'development') {
     // In development the renderer is served by the Next.js dev server.
-    mainWindow.loadURL('http://localhost:3000');
+    mainWindow.loadURL('http://localhost:3100');
     mainWindow.webContents.openDevTools();
   } else {
     // In production load the statically exported Next.js output.
